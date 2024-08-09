@@ -3,33 +3,39 @@
 from pydantic import BaseModel
 
 from fastapi import FastAPI, Depends
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import Session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-# from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy import select
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, AsyncSession
 
 
-engine = create_engine("sqlite:///db.sqlite3", connect_args={"check_same_thread":False}, echo=True)
+engine = create_async_engine("sqlite+aiosqlite:///db.sqlite3", connect_args={"check_same_thread":False}, echo=True)
 
-SessionLocal = sessionmaker(engine)
-Base = declarative_base()
+SessionLocal = async_sessionmaker(engine)
 
+# Base = declarative_base()
+
+
+class Base(DeclarativeBase):
+    pass
 
 class User(Base):
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(unique=True)
 
 
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
 
 
-def get_db():
+async def get_db():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
     db = SessionLocal()
     try:
         yield db
     finally:
-        db.close()
+        await db.close()
 
 
 class UserBase(BaseModel):
@@ -45,14 +51,17 @@ def main():
 
 
 @app.post("/users")
-def add_user(user: UserBase, db: Session = Depends(get_db)):
+async def add_user(user: UserBase, db: AsyncSession = Depends(get_db)):
     db_user = User(username=user.username)
     db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
+    await db.commit()
+    await db.refresh(db_user)
     return db_user
 
+
 @app.get("/users")
-def get_users(db: Session = Depends(get_db)):
-    users = db.query(User).all()
+async def get_users(db: AsyncSession = Depends(get_db)):
+    results = await db.execute(select(User))
+    users = results.scalars().all()
     return {'users': users}
+
