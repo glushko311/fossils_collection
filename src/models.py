@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 
-from main import Base
+from database import Base
 
 
 class User(Base):

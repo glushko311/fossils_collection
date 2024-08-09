@@ -1,4 +1,4 @@
-from main import Base, engine
+from database import Base, engine
 
 import asyncio
 
