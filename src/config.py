@@ -23,10 +23,16 @@ class DbSettings(BaseModel):
     echo: bool = True
 
 
+class ConfigRun(BaseModel):
+    host: str = "0.0.0.0"
+    port: int = 8080
+
+
 class Settings(BaseSettings):
     api_v1_prefix: str = "/api/v1"
 
     db: DbSettings = DbSettings()
+    run: ConfigRun = ConfigRun()
     # db_echo: bool = True
 
 

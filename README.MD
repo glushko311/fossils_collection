@@ -15,4 +15,4 @@
 
 ### Run autoformat
 
-black src/
+black src/; black alembic/;
