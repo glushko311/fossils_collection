@@ -28,4 +28,4 @@ async def add_user(user: UserBase, db: AsyncSession = Depends(get_db)):
 async def get_users(db: AsyncSession = Depends(get_db)):
     results = await db.execute(select(User))
     users = results.scalars().all()
-    return {'users': users}
+    return {"users": users}

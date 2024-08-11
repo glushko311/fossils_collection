@@ -15,4 +15,4 @@
 
 ### Run autoformat
 
-autopep8 --in-place --recursive ./src
+black src/

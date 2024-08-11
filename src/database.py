@@ -1,28 +1,12 @@
-import os
-
-from dotenv import load_dotenv
-
-from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+from src.config import settings
 
-env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
-load_dotenv(dotenv_path=env_path)
+from src.base import Base
 
-POSTGRES_USER = os.getenv("POSTGRES_USER")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
-POSTGRES_HOST = os.getenv("POSTGRES_HOST")
-POSTGRES_PORT = os.getenv("POSTGRES_PORT")
-POSTGRES_DB = os.getenv("POSTGRES_DB")
-
-DATABASE_URL = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
-
-
-engine = create_async_engine(url=DATABASE_URL, echo=True)
+engine = create_async_engine(url=settings.db.url, echo=True)
 SessionLocal = async_sessionmaker(engine)
 
 
-class Base(DeclarativeBase):
-    pass
 
 
 async def get_db():
