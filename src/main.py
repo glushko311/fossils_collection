@@ -4,7 +4,8 @@ import uvicorn
 from fastapi import FastAPI
 from config import settings
 
-from routes import router
+from routers.user_router import user_router
+from routers.main_router import main_router
 from src.db_helper import db_helper
 
 
@@ -16,7 +17,8 @@ async def lifespan(app: FastAPI):
 
 
 main_app = FastAPI(lifespan=lifespan)
-main_app.include_router(router)
+main_app.include_router(main_router)
+main_app.include_router(user_router)
 
 
 if __name__ == "__main__":

@@ -10,9 +10,9 @@
 5. run database with docker
     cd docker
     bash start.sh
-    
+6. To start server run - fossils_collection/src/main.py
 
 
 ### Run autoformat
 
-black src/; black alembic/;
+black src/

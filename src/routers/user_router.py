@@ -3,20 +3,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from db_helper import db_helper
-from models import User
-from schemas import UserBase
+from models.user import User
+from schemas.user_schema import UserBase
 from config import settings
 
 
-router = APIRouter(prefix=settings.api_v1_prefix)
+user_router = APIRouter(prefix=settings.api_v1_prefix + "/users")
 
 
-@router.get("/")
-def main():
-    return "Hello world"
-
-
-@router.post("/users")
+@user_router.post("/")
 async def add_user(
     user: UserBase, db: AsyncSession = Depends(db_helper.scoped_session_dependency)
 ):
@@ -27,7 +22,7 @@ async def add_user(
     return db_user
 
 
-@router.get("/users")
+@user_router.get("/")
 async def get_users(db: AsyncSession = Depends(db_helper.scoped_session_dependency)):
     results = await db.execute(select(User))
     users = results.scalars().all()
