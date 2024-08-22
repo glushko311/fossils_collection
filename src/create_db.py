@@ -1,4 +1,4 @@
-from models import Base
+from models.base import Base
 from db_helper import db_helper
 
 import asyncio

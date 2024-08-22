@@ -1,12 +1,15 @@
+import os
 from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
-from config import settings
+
+from src.config import settings
 
 from routers.user_router import user_router
 from routers.main_router import main_router
 from src.db_helper import db_helper
+app_env = os.getenv("APP_ENV", "development")
 
 
 @asynccontextmanager
@@ -22,6 +25,7 @@ main_app.include_router(user_router)
 
 
 if __name__ == "__main__":
+
     uvicorn.run(
         "main:main_app",
         host=settings.run.host,
