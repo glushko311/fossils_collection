@@ -14,7 +14,7 @@ elif app_env == 'testing':
 else:
     env_file_name = "develop.env"
 
-env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), env_file_name)
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),'src', 'config', env_file_name)
 load_dotenv(dotenv_path=env_path)
 
 

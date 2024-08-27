@@ -1,7 +1,7 @@
 ### Run project
 
 1. clone repo
-2. create in root folder develop.env, production.env, testing.env files
+2. create in %project_path%/src/config folder develop.env, production.env, testing.env files
 like .env_sample and put data in it 
 3. create and activate venv with python 3.11
     **python3 -m venv venv**
