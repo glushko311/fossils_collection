@@ -9,12 +9,17 @@ app_env = os.getenv("APP_ENV", "development")
 
 if app_env == "production":
     env_file_name = "production.env"
-elif app_env == 'testing':
+elif app_env == "testing":
     env_file_name = "testing.env"
 else:
     env_file_name = "develop.env"
 
-env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),'src', 'config', env_file_name)
+env_path = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    "src",
+    "config",
+    env_file_name,
+)
 load_dotenv(dotenv_path=env_path)
 
 
@@ -32,8 +37,8 @@ class DbSettings(BaseModel):
 
 
 class ConfigRun(BaseModel):
-    host: str = os.getenv('APP_HOST')
-    port: int = int(os.getenv('APP_PORT'))
+    host: str = os.getenv("APP_HOST")
+    port: int = int(os.getenv("APP_PORT"))
 
 
 class TestingSettings(BaseSettings):
@@ -56,4 +61,3 @@ class DevelopmentSettings(BaseSettings):
 
     db: DbSettings = DbSettings()
     run: ConfigRun = ConfigRun()
-

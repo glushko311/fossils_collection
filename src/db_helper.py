@@ -11,10 +11,18 @@ from src.config import settings
 
 
 class DatabaseHelper:
-    def __init__(self, url: str, echo: bool = False):
+    def __init__(
+        self,
+        url: str,
+        echo: bool = False,
+        pool_size=5,
+        max_overflow=10,
+    ):
         self.engine = create_async_engine(
             url=url,
             echo=echo,
+            pool_size=pool_size,
+            max_overflow=max_overflow,
         )
         self.session_factory = async_sessionmaker(
             bind=self.engine,
@@ -42,6 +50,7 @@ class DatabaseHelper:
 
     async def dispose(self) -> None:
         await self.engine.dispose()
+
 
 db_helper = DatabaseHelper(
     url=settings.db.url,

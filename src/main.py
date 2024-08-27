@@ -1,25 +1,15 @@
-import os
-from contextlib import asynccontextmanager
-
 import uvicorn
-from fastapi import FastAPI
 
 from src.config import settings
 
 from routers.user_router import user_router
 from routers.main_router import main_router
-from src.db_helper import db_helper
-app_env = os.getenv("APP_ENV", "development")
+
+from create_app import create_app
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    yield
-    print("dispose engine")
-    await db_helper.dispose()
+main_app = create_app(create_custom_static_urls=True)
 
-
-main_app = FastAPI(lifespan=lifespan)
 main_app.include_router(main_router)
 main_app.include_router(user_router)
 
