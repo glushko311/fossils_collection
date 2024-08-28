@@ -14,5 +14,3 @@ elif app_env == "testing":
     settings: BaseSettings = TestingSettings()
 else:
     settings: BaseSettings = DevelopmentSettings()
-
-print(f"Application run in {app_env.upper() if app_env else 'DEVELOPMENT'} environment")
