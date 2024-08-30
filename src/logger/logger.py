@@ -1,7 +1,10 @@
 import os
-import logging.config
 import yaml
 
+import logging.config
+from src.logger.custom_json_formatter import CustomJSONFormatter
+
+# import logging
 
 def setup_logger():
     logger_config_path: str = os.path.join(os.path.dirname(__file__),"logger_config.yaml")
