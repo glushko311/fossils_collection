@@ -1,3 +1,6 @@
+### Project board
+https://trello.com/b/ez6SCQZj/fossilscollecton
+
 ### Run project
 
 1. clone repo
@@ -12,13 +15,18 @@ like .env_sample and put data in it
     **cd docker**
     **bash start.sh**
 6. Add env variable APP_ENV=development 
-7. To start server run script - %abs_path%/fossils_collection/src/main.py
+7. Run migrations 
+    **alembic upgrade head**
+8. To start server run script 
+    **%abs_path%/fossils_collection/src/main.py**
+
 
 ### Migrations
 Create new migration
     **alembic revision --autogenerate -m "Create first migration"**
 Upgrade migrations
     **alembic upgrade head**
+
 
 ### Run autoformat
 
